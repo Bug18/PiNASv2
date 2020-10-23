@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Files Manager{% endblock %}
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8">
+            <form action="./drivesel" method="POST">
+                <div class="form-group">
+                    <div class="col-7">
+                        <label>Enter drive name:</label>
+                        <input type="text" class="form-control" name="drivenm">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Select drive and start FTP</button>
+            </form>
+            <p></p>
+            <form action="./stop_ftp" method="POST">
+                <button type="submit" class="btn btn-danger">Stop FTP</button>
+            </form>
+
+
+            <h1></h1>
+
+            <div class="col-12">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Drive Name</th>
+                            <th scope="col">Total space /GB</th>
+                            <th scope="col">Used space /GB</th>
+                            <th scope="col">Free space /GB</th>
+                        </tr>
+                    </thead>
+                    {% for drive in drives %}
+                        <tbody>
+                            <tr>
+                                <td>{{ drive[0] }}</td>
+                                <td>{{ drive[1] }}</td>
+                                <td>{{ drive[2] }}</td>
+                                <td>{{ drive[3] }}</td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+
+            <p></p>
+
+            <div class="container-fluid">
+                <div class="shadow-lg p-3 mb-5 bg-white rounded">
+                    <h2 class="text-danger">Read Me!</h2>
+                    <h4 class="text-primary">
+                        After FTP server is started You can access it by going
+                        to 'This PC' in Your File Explorer. Right mouse click on the screen and then select
+                        "Add a network location". Follow instructions on screen and then You will need
+                        to specify the location of FTP server. You have to enter: ftp://"ip of your server".
+                        Then You want to login with Your credentials (same as for the website). You can find
+                        Your server under other drives in Your File Explorer.
+                        You only have to do it once. Every other time You just have to come to this page and
+                        select drive You want to access and then You just open it in Explorer. If You didn't
+                        shut down Raspberry Pi or pressed "Stop FTP" button You can also skip this step.
+                    </h4>
+                    <h3 class="text-primary">Enjoy!</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
